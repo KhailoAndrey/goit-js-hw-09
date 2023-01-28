@@ -11,8 +11,11 @@ const dHours = document.querySelector('[data-hours]');
 const dMinutes = document.querySelector('[data-minutes]');
 const dSeconds = document.querySelector('[data-seconds]');
 startBtn.disabled = true;
+// dateField.disabled = true;
+
 let diffTime = 0;
 let selectedDate = 0;
+let timerID = 0;
 
 const options = {
   enableTime: true,
@@ -21,7 +24,6 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     selectedDate = selectedDates[0].getTime();
-    // console.log(selectedDates[0].getTime());
     if (selectedDate < Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
       startBtn.disabled = true;
@@ -30,6 +32,7 @@ const options = {
       startBtn.disabled = false;
       diffData();
       updateTime(diffTime);
+      clearInterval(timerID);
     }
   },
 };
@@ -44,10 +47,11 @@ startBtn.addEventListener('click', startCountdown);
 
 function startCountdown() {
   startBtn.disabled = true;
+  dateField.disabled = true; // почему то не срабатывает!!!
   diffData();
   // console.log(convertMs(diffTime));
-  const timerID = setInterval(() => {
-    console.log(diffTime);
+  timerID = setInterval(() => {
+    // console.log(diffTime);
     if (diffTime <= 1000) {
       // отрисовываем последний 0, выдаем сообщение и выходим из функции
       updateTime(diffTime);
