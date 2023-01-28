@@ -13,7 +13,6 @@ const dSeconds = document.querySelector('[data-seconds]');
 startBtn.disabled = true;
 let diffTime = 0;
 let selectedDate = 0;
-const todayDate = Date.now();
 
 const options = {
   enableTime: true,
@@ -23,7 +22,7 @@ const options = {
   onClose(selectedDates) {
     selectedDate = selectedDates[0].getTime();
     // console.log(selectedDates[0].getTime());
-    if (selectedDate < todayDate) {
+    if (selectedDate < Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
       startBtn.disabled = true;
       updateTime(0);
@@ -46,10 +45,18 @@ startBtn.addEventListener('click', startCountdown);
 function startCountdown() {
   startBtn.disabled = true;
   diffData();
-  console.log(convertMs(diffTime));
+  // console.log(convertMs(diffTime));
   const timerID = setInterval(() => {
-    diffTime -= 1000;
+    console.log(diffTime);
+    if (diffTime <= 1000) {
+      // отрисовываем последний 0, выдаем сообщение и выходим из функции
+      updateTime(diffTime);
+      Notiflix.Notify.info('Time is over');
+      clearInterval(timerID);
+      return;
+    }
     updateTime(diffTime);
+    diffTime -= 1000;
   }, 1000);
 }
 
