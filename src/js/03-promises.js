@@ -19,9 +19,6 @@ function createPromise(position, delay) {
 function startPromises(event) {
   event.preventDefault();
   const { amount, delay, step } = event.currentTarget.elements;
-  // const amount = event.currentTarget.elements.amount.value;
-  // const delay = event.currentTarget.elements.delay.value;
-  // const step = event.currentTarget.elements.step.value;
   let position = 0;
   let currentDelay = Number(delay.value);
   for (let i = 1; i <= amount.value; i++) {
