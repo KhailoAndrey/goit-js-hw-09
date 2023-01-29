@@ -23,10 +23,10 @@ function createPromise(position, delay) {
     const shouldResolve = Math.random() > 0.3;
     if (shouldResolve) {
       // Fulfill
-      resolve({ position, delay });
+      Promise.resolve({ position, delay });
     } else {
       // Reject
-      reject({ position, delay });
+      Promise.reject({ position, delay });
     }
   });
 }
@@ -43,31 +43,31 @@ function createPromise(position, delay) {
 
 function startPromises(event) {
   event.preventDefault();
-  // console.log(event.currentTarget.elements.amount.value);
   const amount = event.currentTarget.elements.amount.value;
   const delay = event.currentTarget.elements.delay.value;
   const step = event.currentTarget.elements.step.value;
   let position = 0;
-  // let currentDelay = delay;
+  let currentDelay = Number(delay);
   console.log(delay, step, amount);
   setTimeout(() => {
-    for (let i = 1; i < amount; i++) {
+    for (let i = 1; i <= amount; i++) {
       position = i;
-      console.log(position);
-      // setInterval(() => {
-      createPromise(position, delay)
-        .then(({ position, delay }) => {
-          Notiflix.Notify.info(
-            `✅ Fulfilled promise ${position} in ${delay}ms`
-          );
-        })
-        .catch(({ position, delay }) => {
-          Notiflix.Notify.failure(
-            `❌ Rejected promise ${position} in ${delay}ms`
-          );
-        });
-      // }, step);
-      // currentDelay = currentDelay + step;
+      console.log(position, currentDelay);
+      // createPromise(position, currentDelay);
+      setTimeout(() => {
+        createPromise(position, currentDelay)
+          .then(({ position, currentDelay }) => {
+            Notiflix.Notify.info(
+              `✅ Fulfilled promise ${position} in ${currentDelay}ms`
+            );
+          })
+          .catch(({ position, currentDelay }) => {
+            Notiflix.Notify.failure(
+              `❌ Rejected promise ${position} in ${currentDelay}ms`
+            );
+          });
+      }, currentDelay);
+      currentDelay = currentDelay + Number(step);
     }
   }, delay);
 }
