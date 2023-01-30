@@ -55,6 +55,7 @@ function startCountdown() {
     if (diffTime <= 1000) {
       // отрисовываем последний 0, выдаем сообщение и выходим из функции
       updateTime(diffTime);
+      dateField.disabled = false;
       Notiflix.Notify.info('Time is over');
       clearInterval(timerID);
       return;
@@ -65,7 +66,7 @@ function startCountdown() {
 }
 
 function updateTime(diffTime) {
-  console.log(convertMs(diffTime));
+  // console.log(convertMs(diffTime));
   dDays.textContent = String(convertMs(diffTime).days).padStart(2, 0);
   dHours.textContent = String(convertMs(diffTime).hours).padStart(2, 0);
   dMinutes.textContent = String(convertMs(diffTime).minutes).padStart(2, 0);
