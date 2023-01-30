@@ -19,14 +19,13 @@ function createPromise(position, delay) {
 
 function startPromises(event) {
   event.preventDefault();
-  startBtn.disabled = true;
+  form.disabled = true;
   const { amount, delay, step } = event.currentTarget.elements;
   let position = 0;
   let currentDelay = Number(delay.value);
   for (let i = 1; i <= amount.value; i++) {
-    if ((i = amount)) {
-      startBtn.disabled = false;
-    }
+    // if ((i = amount.value)) {
+    // }
     position = i;
     console.log('position', position, 'step', currentDelay);
     createPromise(position, currentDelay)
@@ -40,4 +39,5 @@ function startPromises(event) {
       });
     currentDelay = currentDelay + Number(step.value);
   }
+  form.disabled = false;
 }
